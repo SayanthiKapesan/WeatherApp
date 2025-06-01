@@ -1,80 +1,40 @@
 import React from 'react';
-import '../styles/weather.css';
 
 const WeatherCard = ({ data }) => {
   const { name, sys, main, weather, wind } = data;
   const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
-  
-  // Format date and time
-  const now = new Date();
-  const dateString = now.toLocaleDateString(undefined, { 
-    weekday: 'long', 
-    month: 'long', 
-    day: 'numeric' 
-  });
-  
-  const timeString = now.toLocaleTimeString([], { 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  });
-  
-  // Determine background based on temperature
-  const getBackgroundClass = () => {
-    const temp = main.temp;
-    if (temp < 0) return 'freezing';
-    if (temp < 10) return 'cold';
-    if (temp < 20) return 'cool';
-    if (temp < 30) return 'warm';
-    return 'hot';
-  };
 
   return (
-    <div className={`weather-container ${getBackgroundClass()}`}>
-      <div className="location-time">
-        <div className="location">
-          <h2>{name}, {sys.country}</h2>
-          <p>{dateString}</p>
-        </div>
-        <div className="time">
-          <p>{timeString}</p>
-        </div>
-      </div>
-      
-      <div className="current-weather">
-        <div className="temperature-display">
-          <div className="main-temp">{Math.round(main.temp)}°C</div>
-          <p className="feels-like">Feels like: {Math.round(main.feels_like)}°C</p>
-        </div>
-        <div className="weather-condition">
-          <img src={iconUrl} alt={weather[0].description} className="weather-icon" />
+<div className="container">
+    <div className="weather-card">
+      <h2>{name}, {sys.country}</h2>
+      <div className="weather-main">
+        <img src={iconUrl} alt={weather[0].description} />
+        <div>
+          <p className="temperature">{Math.round(main.temp)}°C</p>
           <p className="description">{weather[0].description}</p>
         </div>
       </div>
       
       <div className="weather-details">
-        <div className="detail-item">
-          <div className="detail-label">Humidity</div>
-          <div className="detail-value">{main.humidity}%</div>
+        <div>
+          <span>Feels Like</span>
+          <span>{Math.round(main.feels_like)}°C</span>
         </div>
-        
-        <div className="detail-item">
-          <div className="detail-label">Wind</div>
-          <div className="detail-value">{wind.speed} m/s</div>
+        <div>
+          <span>Humidity</span>
+          <span>{main.humidity}%</span>
         </div>
-        
-        <div className="detail-item">
-          <div className="detail-label">Pressure</div>
-          <div className="detail-value">{main.pressure} hPa</div>
+        <div>
+          <span>Wind</span>
+          <span>{wind.speed} m/s</span>
         </div>
-        
-        <div className="detail-item">
-          <div className="detail-label">Range</div>
-          <div className="detail-value">
-            {Math.round(main.temp_min)}° / {Math.round(main.temp_max)}°
-          </div>
+        <div>
+          <span>Pressure</span>
+          <span>{main.pressure} hPa</span>
         </div>
       </div>
-    </div>
+    </div></div>
   );
 };
 
